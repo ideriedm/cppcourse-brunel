@@ -46,10 +46,10 @@ void Neuron::setMemPot(double const& NewPotential){
 
 /*********************************************************************/
 
-bool Neuron::update(size_t Jidx, int time){
+bool Neuron::update(size_t const& Jidx, int const& time){
     
-    // Contains the amplitude this* should add to its membrane potential at the current time
-    double Jn = jToAdd_[Jidx];
+    // Contains the number of spikes this* should add to its membrane potential at the current time
+    double nbSpikes = jToAdd_[Jidx];
     // Empty the corresponding case of the buffer after reading it
     jToAdd_[Jidx]=0;
     
@@ -67,16 +67,13 @@ bool Neuron::update(size_t Jidx, int time){
              * action potential and reach a refractory state .
              * Then the membrane potential become Vreset */
             setMemPot(Vreset);
-            /* This* is now in a refractory state.
-             * We must remove h to have the number of TimeStep we want for the pauseTime */
-           // setPauseTime(refractoryTimeMinusH);
             // Spike equals true because this* has spiked
             Spike=true;
             timeSpike_= time;
         }
         else {
             // The membrane potential changes according to the chosen equation
-            MembraneEquation(getI(), Jn);
+            MembraneEquation(getI(), nbSpikes);
         }
     }
     
@@ -86,10 +83,10 @@ bool Neuron::update(size_t Jidx, int time){
     
 }
 
-void Neuron::MembraneEquation(double const& i, double const& Jn){
+void Neuron::MembraneEquation(double const& i, double const& nbSpikes){
     
     // Equation for the membrane potential
-    setMemPot( scalarCste1*getMembranePotential() + i*scalarCste2 + Jn*Je);
+    setMemPot( scalarCste1*getMembranePotential() + i*scalarCste2 + nbSpikes*Je);
     
 }
 

@@ -3,6 +3,7 @@
  
 const double C=1; //!< The capacity
 const double Delay=1.5; //!< Delay for the transmission of a spike between pre- and postsynaptic neurons in [mS]
+const double epsilon = 0.1; //!< constant << 1 : Ce = epsilon * Ne, Ci = epsilon * Ni
 const double h=0.1; //!< Duration of a timeStep in [ms], T=n*h
 const unsigned int DelayInSteps = static_cast<unsigned long>(ceil(Delay/h)); //!< Delay in timesteps
 const unsigned int tau=20; //!< C*R [ms]

@@ -15,8 +15,6 @@
 
 class Network{
     
-    const double epsilon = 0.1; //!< constant << 1 : Ce = epsilon * Ne, Ci = epsilon * Ni
-
     private:
 
     bool BackgroundNoise_ ; //!< False if we want to test the program without the background noise
@@ -52,11 +50,10 @@ class Network{
      * @return Eta_
      */
     double getEta() const;
-    
-    
-    
+
     
     /*********************************************************************/
+    
     /**
      * Setter of Ce_
      * @param ce is the new Ce_
@@ -79,7 +76,6 @@ class Network{
      */
     void setVext(double const& newV);
     
-    /*********************************************************************/
 
     
     /*********************************************************************/
@@ -147,6 +143,7 @@ class Network{
     
     /**
      * Constructor of a network
+     * @param backgroundNoise : true if you want backgroundNoise
      * @param g : ratio Ji/Je
      * @param Eta : ratio Vext/Vthr
      * @param nbNeurons is the number of neurons we want to simulate
@@ -167,7 +164,7 @@ class Network{
     
     /**
      * Update the network: call the method update of each neurons of the simulation
-     * @param Starstep : beginning of the time interval for the graph
+     * @param StartStep : beginning of the time interval for the graph
      * @param StopStep : end of the time interval for the graph
      */
     void updateNetwork(double const& StartStep, double const& StopStep);

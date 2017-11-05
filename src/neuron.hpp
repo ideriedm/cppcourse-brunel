@@ -57,9 +57,9 @@ class Neuron{
     /**
      * Determines the new membrane potential according to an equation
      * @param I is the external current
-     * @param Jn is the amplitude to add to the membrane potential
+     * @param nbSpikes is the number of spikes to add
      */
-    void MembraneEquation(double const& I, double const& Jn);
+    void MembraneEquation(double const& I, double const& nbSpikes);
     
     
     /*********************************************************************/
@@ -94,11 +94,7 @@ class Neuron{
     
 	/**
      * Constructor of Neuron
-     * @param BackgroundNoise : equals true if we want to had the background noise to the simulation (poisson)
      * @param isExcitatory : equals true if the neuron is excitatory
-     * @param Ce : number of excitatory connections each neuron receives
-     * @param Eta : ratio Vext/Vthr
-     * @param g : ratio Ji/Je
      */
     Neuron (bool const& isExcitatory=true);
 	
@@ -134,7 +130,7 @@ class Neuron{
      * @param time is the global time
      * @return true if there is a spike in the time interval
      */
-	bool update(size_t Jidx, int time=0);
+	bool update(size_t const& Jidx, int const& time=0);
     
 
 };
