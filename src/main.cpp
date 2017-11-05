@@ -1,5 +1,6 @@
 #include "neuron.hpp"
 #include "network.hpp"
+#include <string>
 
 using namespace std;
 
@@ -11,8 +12,16 @@ vector<double> readParam();
 
 int main(){
 	
+    vector<double> param;
     //Vector containing all the parameters useful for the simulation
-    vector<double> param = readParam();
+    try{
+        param = readParam();
+        
+    }
+    catch(string errorMsg){
+        cerr << errorMsg ;
+        return 1;
+    }
     
     //Affectation of these parameters into clearer names
     double g(param[0]), eta(param[1]);
@@ -51,57 +60,57 @@ vector<double> readParam() {
         //Reading of all the parameters
         read >> param[i] ;
         
+         string error("Invalid argument: ");
         //Test that the parameters are positive numbers
         if( (read.fail() ) or (param[i] < 0) ){
             
-            cerr << "Invalid argument:";
             
             if(i==0 or i==1){
                 switch (i){
                     case 0:
-                        cerr << "G ";
+                        error += "G ";
                         break;
                     case 1:
-                        cerr << "Eta ";
+                        error += "Eta ";
                         break;
         
                         
                 }
-                cerr << "must be a positive real number" << endl;
+                error += "must be a positive real number" ;
                 
             }
             else{
                 switch (i){
                     
                     case 2:
-                        cerr << "The number of neurons ";
+                        error += " The number of neurons ";
                         break;
                     case 3:
-                        cerr << "The start time ";
+                        error += " The start time ";
                         break;
                     case 4:
-                        cerr << "The stop time ";
+                        error +=  " The stop time ";
                         break;
                     
                 }
-                cerr << "must be a positive integer number";
+                error +=  " must be a positive integer number";
             }
             
-            throw invalid_argument(" ");
+           throw(error);
         }
         //Test that the number of neurons is more than 50
         else if (i==2 and param[i] < 50){
             cout << param[3];
-            cerr << " Not enough neurons in the simulation for the chosen ration 0.8:0.2 excitatory:inhibitory. At least 50. " << endl;
-            throw invalid_argument(" ");
+            error += " Not enough neurons in the simulation for the chosen ration 0.8:0.2 excitatory:inhibitory. At least 50. " ;
+          throw(error);
             
         }
         //Test that the start time is smaller than the stop time
         else if (i==4 and param[4] < param[3]){
-            cerr << "The stop time must be bigger than the start time. " << endl;
-            throw invalid_argument(" ");
+            error += " The stop time must be bigger than the start time. ";
+            throw(error);
         }
-      
+        
     }
     //Closing of the flow
     read.close();
