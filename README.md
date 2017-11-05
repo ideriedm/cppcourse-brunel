@@ -48,7 +48,7 @@ During the update, it handles the Poisson distribution and fills the buffer of t
 Make a directory and name it (e.g. projet_neuro)
 Do a git clone
 ```
-git clone https://github.com/ideriedm/neuro-project-new.git
+git clone https://github.com/ideriedm/cppcourse-brunel.git
 ```
 On the terminal,  go to directory projet_neuro/build/
 Compile with
