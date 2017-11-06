@@ -77,7 +77,7 @@ class Neuron{
     
 	public:
 
-    std::vector<int> jToAdd_; //!< Our buffer. Vector containing the number of spikes that should be added to the membrane potential. Each cases (DelayInStep + 1 cases) corresponds to one TimeStep. If a spike is sent at timestep 0, the postsynaptic neuron will receive it at timestep 15, in this case. Even though it breaks the encapsulation a little bit, putting jToAdd_ in public enables to reduce the simulation time. Indeed, we use it directly in network. An excitatory will send 1 spike, an inhibitory will send -g spike
+    std::vector<double> jToAdd_; //!< Our buffer. Vector containing the number of spikes that should be added to the membrane potential. Each cases (DelayInStep + 1 cases) corresponds to one TimeStep. If a spike is sent at timestep 0, the postsynaptic neuron will receive it at timestep 15, in this case. Even though it breaks the encapsulation a little bit, putting jToAdd_ in public enables to reduce the simulation time. Indeed, we use it directly in network. An excitatory will send 1 spike, an inhibitory will send -g spike
     
 
     /**
