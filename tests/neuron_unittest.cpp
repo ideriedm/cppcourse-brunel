@@ -88,7 +88,7 @@ TEST (NeuronTest, NegativeInput){
     //Because it is an exponential damping, it will never exactly reach 0, so you expect the membrane potential to be near 0.
     EXPECT_NEAR(0,neuron.getMembranePotential(),1E-3);
     
-   
+
 }
 
 /**
@@ -198,8 +198,8 @@ public:
     /*
      * Creation of a network of 2 neurons, with parameters g=5 and eta=2, without backgroundNoise
      */
-    NetTest()
-    : Network(false,5,2,2)
+    NetTest(double const&g=5, double const& eta=2, unsigned int const& nbNeurons=2)
+    : Network(false,g,eta,nbNeurons)
     {}
     
     /**
@@ -403,6 +403,38 @@ TEST (TwoNeurons, spikeTransmissionFromInhibitor){
     EXPECT_EQ(-0.5, net.neurons[1]->getMembranePotential());
 
 
+    //Test the input from inhibitory with g=3
+    NetTest net1(3,2,2);
+    net1.connectTwoNeurons();
+    net1.neurons[0]->setIsExcitatory(false);
+    net1.neurons[0]->setI(1.01);
+    
+    for(size_t i(0); i < 940 ; ++i)
+        net1.update_for_test();
+    //Ji should be -0.3
+    EXPECT_NEAR(-0.3, net1.neurons[1]->getMembranePotential(),1E-3);
+    
+    //Test the input from inhibitory with g=6
+    NetTest net2(6,4,2);
+    net2.connectTwoNeurons();
+    net2.neurons[0]->setIsExcitatory(false);
+    net2.neurons[0]->setI(1.01);
+    
+    for(size_t i(0); i < 940 ; ++i)
+        net2.update_for_test();
+    //Ji should be -0.3
+    EXPECT_NEAR(-0.6, net2.neurons[1]->getMembranePotential(),1E-3);
+    
+    //Test the input from inhibitory with g=4.5
+    NetTest net3(4.5,0.9,2);
+    net3.connectTwoNeurons();
+    net3.neurons[0]->setIsExcitatory(false);
+    net3.neurons[0]->setI(1.01);
+    
+    for(size_t i(0); i < 940 ; ++i)
+        net3.update_for_test();
+    //Ji should be -0.45
+    EXPECT_NEAR(-0.45, net3.neurons[1]->getMembranePotential(),1E-3);
 }
 
 /**
@@ -410,7 +442,7 @@ TEST (TwoNeurons, spikeTransmissionFromInhibitor){
  */
 TEST (Network, creation){
 
-    //Creation of a network of 12500 neurons, without backgroundNoise
+    //Creation of a network of 12500 neurons, without backgroundNoise, g=3, eta=2
     Network net(true,3, 2, 12500);
     net.createNetwork();
 
@@ -438,7 +470,43 @@ TEST (Network, creation){
         }
     }
     EXPECT_EQ(250, counter);
+    
+    //Creation of a network of 12500 neurons, without backgroundNoise, g=5, eta=2
+    Network net2(true,5, 2, 12500);
+    net2.createNetwork();
+    
+    //Check if the numbers of neurons are correct
+    EXPECT_EQ(12500, net2.getNbNeurons());
+    EXPECT_EQ(10000, net2.getNbExcitatory());
+    EXPECT_EQ(2500, net2.getNbInhibitory());
+    EXPECT_EQ(20,net2.getVext());
+    //Argument of poisson
+    EXPECT_EQ(2,net2.getVext()*h);
 
+    //Creation of a network of 12500 neurons, without backgroundNoise, g=4.5, eta=0.9
+    Network net3(true,4.5, 0.9, 12500);
+    net3.createNetwork();
+    
+    //Check if the numbers of neurons are correct
+    EXPECT_EQ(12500, net3.getNbNeurons());
+    EXPECT_EQ(10000, net3.getNbExcitatory());
+    EXPECT_EQ(2500, net3.getNbInhibitory());
+    EXPECT_EQ(9,net3.getVext());
+    //Argument of poisson
+    EXPECT_EQ(0.9,net3.getVext()*h);
+    
+    //Creation of a network of 12500 neurons, without backgroundNoise, g=6, eta=4
+    Network net4(true,6, 4, 12500);
+    net4.createNetwork();
+    
+    //Check if the numbers of neurons are correct
+    EXPECT_EQ(12500, net4.getNbNeurons());
+    EXPECT_EQ(10000, net4.getNbExcitatory());
+    EXPECT_EQ(2500, net4.getNbInhibitory());
+    EXPECT_EQ(40,net4.getVext());
+    //Argument of poisson
+    EXPECT_EQ(4,net4.getVext()*h);
+    
 }
 
 /**
