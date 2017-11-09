@@ -30,7 +30,8 @@ This class models a network of many neurons. It creates as many neurons as you w
 It handles all the connections between the neuron with its attribute neuronConnections. It contains all the neurons of the simulation (in form of index), and each of them has a vector of indexTarget (index that correspond to targets). It also has a vector with all the neurons (pointers).
 During the update, it handles the Poisson distribution and fills the buffer of the neurons.
 
-## The file Constants.h :
+## The file :
+\link Constants.h  \endlink
 
 
 
